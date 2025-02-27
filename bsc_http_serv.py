@@ -16,8 +16,6 @@ async def send_bill(bill_dt):
     uri = "ws://127.0.0.2:8002"
     async with websockets.connect(uri) as websocket:
         print("Connected to server")       
-        # await websocket.send(f"The data is: {dt}")
-        # send_dt = {'uuid': None, 'amount': None, 'bill': bill_dt}
         json_retour = json.dumps({'message': 'Bill', 'bill': bill_dt})
         await websocket.send(json_retour)
 
@@ -33,6 +31,7 @@ class BillServer(BaseHTTPRequestHandler):
             decoded_post_data = post_data.decode('utf-8')   
             parsed_post_data = parse_qs(decoded_post_data)
             bill = parsed_post_data.get('bill')[0]
+            # Checking if bill is valid
             if bill in ['5','10','20', '50', '100']:
                 self.send_response(200)
                 print(f"Given bill :  {bill}")

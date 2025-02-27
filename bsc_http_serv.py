@@ -21,20 +21,6 @@ async def send_bill(bill_dt):
         json_retour = json.dumps({'message': 'Bill', 'bill': bill_dt})
         await websocket.send(json_retour)
 
-        # await websocket.send(f"Python client___ {bill_dt}")
-        # Receive and display response
-        response = await websocket.recv()
-        # print(f"Server response: {response}")
-
-
-# threading the async function
-def send_bill_by_thread(bill):
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-        loop.run_until_complete(send_bill(bill))
-        loop.close()
-        # asyncio.run(send_bill(bill))
-
 
 # creating server class
 class BillServer(BaseHTTPRequestHandler):
@@ -51,7 +37,6 @@ class BillServer(BaseHTTPRequestHandler):
                 self.send_response(200)
                 print(f"Given bill :  {bill}")
                 try:
-                    threading.Thread(target = send_bill_by_thread, args=(bill,)).start()
                     asyncio.run(send_bill(bill))
                 except Exception as e:
                     print(f"Connection failed: {e}")

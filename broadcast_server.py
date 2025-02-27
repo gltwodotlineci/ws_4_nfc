@@ -8,14 +8,16 @@ from urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(category=InsecureRequestWarning)
 
 # List to store connected clients
-clients = set()  # Using a set avoids duplicates
+clients = set()
 
 # Broadcasting function
 async def broadcast(message):
     disconnected_clients = set()
     for client in clients:
         try:
-            await client.send(message)  # Corrected: Must use await
+            await client.send(message)
+            print(client)
+            print("-------------------  ")
         except websockets.exceptions.ConnectionClosed:
             print("Client disconnected, removing from list")
             disconnected_clients.add(client)

@@ -32,7 +32,8 @@ def read_card():
             get_uid = [0xFF, 0xCA, 0x00, 0x00, 0x00]
             response, sw1, sw2 = connection.transmit(get_uid)
 
-            if sw1 == 0x90 and sw2 == 0x00:  # Status Word 0x90 0x00 means success
+            # Status Word 0x90 0x00 means success
+            if sw1 == 0x90 and sw2 == 0x00:
                 tag_id = ''.join(format(x, '02X') for x in response)
         except Exception as e:
             print("Error reading card:", e)
@@ -47,7 +48,6 @@ async def hello(websocket):
     WebSocket handler for receiving commands and responding with NFC tag ID.
     """
     print("Enterging to async")
-
     msg = await websocket.recv()
 
 
@@ -57,7 +57,7 @@ async def hello(websocket):
         print(f"tag_id <=> {tag_id}")
 
         resp = requests.post(
-            'http://localhost:8000/api/card/scan/',
+            'http://localhost:57347/api/card/scan/',
             data={'tag_id': tag_id},
             verify=False
         )

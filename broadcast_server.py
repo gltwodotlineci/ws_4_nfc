@@ -50,7 +50,7 @@ async def handler(websocket):
 # Start WS server
 async def main():
     server = await websockets.serve(handler, "localhos", 8003)
-    print("WebSocket Server running on ws://localhost:8003")
+    print("WebSocket Server running on ws://127.0.0.1:8003")
     await server.wait_closed()
 
 # Run the Wb server

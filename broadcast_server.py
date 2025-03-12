@@ -49,8 +49,8 @@ async def handler(websocket):
 
 # Start WS server
 async def main():
-    async with websockets.serve(handler, "127.0.0.1", 8003)
-        await asyncio.Future
+    async with websockets.serve(handler, "0.0.0.0", 8003):
+        await asyncio.Future()
 
 # Run the Wb server
 if __name__ == "__main__":

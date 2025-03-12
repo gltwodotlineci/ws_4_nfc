@@ -1,4 +1,4 @@
-import asyncio
+import asyncio, websockets
 from websockets.asyncio.server import serve
 from py122u import nfc
 import json
@@ -38,7 +38,7 @@ async def hello(websocket):
     tag_id = read_card()
     print(f"tag_id <=>", tag_id)
     resp = requests.post(
-        'http://localhost:8000/api/card/scan/',
+        'http://glencho.casacam.net:57347/api/card/scan/',
         data={'tag_id': tag_id},
         verify=False
     )
@@ -52,8 +52,10 @@ async def hello(websocket):
     await websocket.send(json_retour)
 
 async def main():
-  async with serve(hello, "localhost", 8001):
-    await asyncio.get_running_loop().create_future()
+  async with websockets.serve(hello, "127.0.0.1", 8002):
+    await asyncio.Future() 
+  # async with serve(hello, "127.0.0.2", 8002):
+  #   await asyncio.get_running_loop().create_future()
 
 if __name__ == "__main__":
   asyncio.run(main())

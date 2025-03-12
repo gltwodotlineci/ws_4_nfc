@@ -1,4 +1,4 @@
-import asyncio
+import asyncio, websockets
 from websockets.asyncio.server import serve
 from smartcard.System import readers
 from smartcard.util import toHexString
@@ -50,32 +50,30 @@ async def hello(websocket):
     print("Enterging to async")
     msg = await websocket.recv()
 
-    async for message in websocket:
-        print(f"Received: {message}")
+    if msg == "reed_tag_id":
+        tag_id = read_card()
+        print(f"tag_id <=> {tag_id}")
 
+        resp = requests.post(
+        'http://glencho.casacam.net:57347/api/card/scan/',
+        data={'tag_id': tag_id},
+        verify=False
+        )
 
-        if msg == "reed_tag_id":
-            tag_id = read_card()
-            print(f"tag_id <=> {tag_id}")
+        if resp.status_code != 200:
+            json_retour = json.dumps({'message': 'NotFound', 'tag_id': ''})
+        else:
+            json_retour = json.dumps(resp.json())
 
-            resp = requests.post(
-                'http://localhost:57347/api/card/scan/',
-                data={'tag_id': tag_id},
-                verify=False
-            )
-
-            if resp.status_code != 200:
-                json_retour = json.dumps({'message': 'NotFound', 'tag_id': ''})
-            else:
-                json_retour = json.dumps(resp.json())
-
-            print("Response: ", json_retour)
-            await websocket.send(json_retour)
+        print("Response: ", json_retour)
+        await websocket.send(json_retour)
 
 
 async def main():
-    async with serve(hello, "localhost", 8001):
-        await asyncio.get_running_loop().create_future()
+  async with websockets.serve(hello, "127.0.0.1", 8002):
+    await asyncio.Future() 
+  # async with serve(hello, "127.0.0.2", 8002):
+  #   await asyncio.get_running_loop().create_future()
 
 if __name__ == "__main__":
     asyncio.run(main())

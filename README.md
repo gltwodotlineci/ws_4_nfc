@@ -44,3 +44,10 @@ python3 server_ws_nfc.py
 python3 bsc_http_serv.py
 python3 broadcast_server.py
 ```
+
+*Sometimes if you want to install the package py122u you will get an error that informs you that ERROR: `Failed building wheel for pyscard`
+You can fix it by installing:
+```bash
+sudo apt-get install libusb-dev pcscd libpcsclite-dev libccid
+``
+

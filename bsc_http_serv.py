@@ -1,7 +1,7 @@
 import json, threading
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from urllib.parse import parse_qs
-hostname = "127.0.0.1"
+hostname = "127.0.0.3"
 port = 8005
 
 # web socket dependences:
@@ -9,11 +9,11 @@ import asyncio
 import websockets
 
 # the given curl:
-# curl -sk -d "bill=20" http://127.0.0.1:8005/bill
+# curl -sk -d "bill=20" http://127.0.0.3:8005/bill
 
 
 async def send_bill(bill_dt):
-    uri = "ws://127.0.0.2:8002"
+    uri = "ws://127.0.0.2:8003"
     async with websockets.connect(uri) as websocket:
         print("Connected to server")       
         json_retour = json.dumps({'message': 'Bill', 'bill': bill_dt})

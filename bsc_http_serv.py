@@ -13,7 +13,7 @@ import websockets
 
 
 async def send_bill(bill_dt):
-    uri = "ws://127.0.0.10:8010"
+    uri = "ws://127.0.0.1:8010"
     async with websockets.connect(uri) as websocket:
         print("Connected to server")       
         json_retour = json.dumps({'message': 'Bill', 'bill': bill_dt})

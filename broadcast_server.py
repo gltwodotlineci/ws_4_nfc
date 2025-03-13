@@ -3,10 +3,6 @@ import websockets
 import json
 from websockets.asyncio.server import serve
 
-# Avoiding SSL warning
-import requests
-from urllib3.exceptions import InsecureRequestWarning
-requests.packages.urllib3.disable_warnings(category=InsecureRequestWarning)
 
 # List to store connected clients
 clients = set()
@@ -48,7 +44,7 @@ async def handler(websocket):
 
 # Start WS server
 async def main():
-    server = await websockets.serve(handler, "127.0.0.10", 8010)
+    server = await websockets.serve(handler, "127.0.0.1", 8010)
     await server.wait_closed()
 
 

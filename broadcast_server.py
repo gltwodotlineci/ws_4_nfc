@@ -1,6 +1,7 @@
 import asyncio
 import websockets
 import json
+from websockets.asyncio.server import serve
 
 # Avoiding SSL warning
 import requests
@@ -37,20 +38,19 @@ async def handler(websocket):
             # Broadcasting received data message
             if received_data.get('message') == "Bill":
                 message = {'bill': received_data['bill'], 'received_bill': "Bill recived"}
+                print(message)
                 await broadcast(json.dumps(message))
 
     except Exception as e:
         print(f"Error occurred: {e}")
 
-    finally:
-        # Removing client when disconnected
-        clients.discard(websocket)
-        print("Client disconnected")
+
 
 # Start WS server
 async def main():
-    async with websockets.serve(handler, "0.0.0.0", 8003):
-        await asyncio.Future()
+    server = await websockets.serve(handler, "127.0.0.10", 8010)
+    await server.wait_closed()
+
 
 # Run the Wb server
 if __name__ == "__main__":

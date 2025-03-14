@@ -1,5 +1,4 @@
 import asyncio, websockets
-from websockets.asyncio.server import serve
 from py122u import nfc
 import json
 import requests

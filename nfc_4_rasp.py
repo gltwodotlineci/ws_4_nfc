@@ -1,7 +1,5 @@
 import asyncio, websockets
-from websockets.asyncio.server import serve
 from smartcard.System import readers
-from smartcard.util import toHexString
 import json
 import requests
 

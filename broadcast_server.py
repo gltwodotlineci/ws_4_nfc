@@ -1,7 +1,6 @@
 import asyncio
 import websockets
 import json
-from websockets.asyncio.server import serve
 
 
 # List to store connected clients
@@ -33,6 +32,7 @@ async def handler(websocket):
 
             # Broadcasting received data message
             if received_data.get('message') == "Bill":
+                # Send bill amount message as json
                 message = {'bill': received_data['bill'], 'received_bill': "Bill recived"}
                 print(message)
                 await broadcast(json.dumps(message))
@@ -41,13 +41,10 @@ async def handler(websocket):
         print(f"Error occurred: {e}")
 
 
-
-# Start WS server
 async def main():
     server = await websockets.serve(handler, "127.0.0.1", 8010)
     await server.wait_closed()
 
 
-# Run the Wb server
 if __name__ == "__main__":
     asyncio.run(main())

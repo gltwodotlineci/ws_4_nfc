@@ -1,4 +1,4 @@
-import json, threading
+import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from urllib.parse import parse_qs
 hostname = "127.0.0.3"
@@ -9,6 +9,7 @@ import asyncio
 import websockets
 
 # the given curl:
+# You can use this curl tu simulate the cash device payement
 # curl -sk -d "bill=20" http://127.0.0.3:8005/bill
 
 

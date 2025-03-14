@@ -16,9 +16,10 @@ if not available_readers:
 
 reader = available_readers[0]  # Use the first available reader
 
-def read_card():
+def read_card()-> str:
     """
     Reads an NFC card UID using pyscard.
+    :tag_id: str
     """
     tag_id = ''
     tag_id_good = False
@@ -50,6 +51,7 @@ async def hello(websocket):
     print("Enterging to async")
     msg = await websocket.recv()
 
+  # When it recive the message to reed the card
     if msg == "reed_tag_id":
         tag_id = read_card()
         print(f"tag_id <=> {tag_id}")
@@ -60,8 +62,10 @@ async def hello(websocket):
         verify=False
         )
 
+        # The case the card does not exist on kiosk DB
         if resp.status_code != 200:
             json_retour = json.dumps({'message': 'NotFound', 'tag_id': ''})
+        # Sending the tag_id as json data
         else:
             json_retour = json.dumps(resp.json())
 
@@ -72,8 +76,7 @@ async def hello(websocket):
 async def main():
   async with websockets.serve(hello, "127.0.0.1", 8002):
     await asyncio.Future() 
-  # async with serve(hello, "127.0.0.2", 8002):
-  #   await asyncio.get_running_loop().create_future()
+
 
 if __name__ == "__main__":
     asyncio.run(main())

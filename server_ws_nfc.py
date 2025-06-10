@@ -7,7 +7,12 @@ import requests
 from urllib3.exceptions import InsecureRequestWarning
 # Suppress the warnings from urllib3
 requests.packages.urllib3.disable_warnings(category=InsecureRequestWarning)
+# adding the token:
+token_key = "21204489f766b2c3373f19051f132464235c5ec883e5c0d49b4e3b17d683bf04"
 
+headers = {
+    'Authorization': f'Bearer {token_key}'
+}
 reader = nfc.Reader()
 
 def read_card()-> str:
@@ -38,8 +43,10 @@ async def hello(websocket):
     tag_id = read_card()
     print(f"tag_id <=>", tag_id)
     resp = requests.post(
-        'http://glencho.casacam.net:57347/api/card/scan/',
+        #'http://glencho.casacam.net:57347/api/card/scan/',
+        'http://localhost:8000/api/card/scan/',
         data={'tag_id': tag_id},
+        # headers=headers,
         verify=False
     )
     

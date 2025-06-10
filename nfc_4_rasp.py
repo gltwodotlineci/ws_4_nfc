@@ -7,6 +7,11 @@ import requests
 from urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(category=InsecureRequestWarning)
 
+token_key = "21204489f766b2c3373f19051f132464235c5ec883e5c0d49b4e3b17d683bf04"
+
+headers = {
+    'Authorization': f'Bearer {token_key}'
+}
 # Get available NFC readers
 available_readers = readers()
 if not available_readers:
@@ -57,6 +62,7 @@ async def hello(websocket):
         resp = requests.post(
         'http://glencho.casacam.net:57347/api/card/scan/',
         data={'tag_id': tag_id},
+        headers=headers,
         verify=False
         )
 

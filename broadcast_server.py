@@ -1,7 +1,11 @@
+from dotenv import load_dotenv
 import asyncio
 import websockets
-import json
+import json, os
 
+# Token for identification
+load_dotenv()
+token_key = os.getenv("DEVICE_TOKEN_KEY")
 
 # List to store connected clients
 clients = set()
@@ -33,8 +37,9 @@ async def handler(websocket):
             # Broadcasting received data message
             if received_data.get('message') == "Bill":
                 # Send bill amount message as json
-                message = {'bill': received_data['bill'], 'received_bill': "Bill recived"}
-                print(message)
+                message = {'bill': received_data['bill'],
+                           'token_key':token_key, 'received_bill': "Bill recived"}
+                print(message.get('token_id'))
                 await broadcast(json.dumps(message))
 
     except Exception as e:

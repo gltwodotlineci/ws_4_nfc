@@ -11,6 +11,7 @@ import websockets
 # the given curl:
 # You can use this curl tu simulate the cash device payement
 # curl -sk -d "bill=20" http://127.0.0.3:8005/bill
+#
 
 
 async def send_bill(bill_dt):

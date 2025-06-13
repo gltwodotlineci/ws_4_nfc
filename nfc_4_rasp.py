@@ -1,17 +1,21 @@
-import asyncio, websockets
 from smartcard.System import readers
-import json
+from dotenv import load_dotenv
+import asyncio, websockets
+import json, os
 import requests
 
 # Avoiding SSL warnings
 from urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(category=InsecureRequestWarning)
 
-token_key = "21204489f766b2c3373f19051f132464235c5ec883e5c0d49b4e3b17d683bf04"
+# Calling the token key from hiden file .env:
+load_dotenv()
+token_key = os.getenv("DEVICE_TOKEN_KEY")
 
 headers = {
     'Authorization': f'Bearer {token_key}'
 }
+
 # Get available NFC readers
 available_readers = readers()
 if not available_readers:

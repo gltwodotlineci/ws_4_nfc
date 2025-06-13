@@ -1,0 +1,11 @@
+.env
+*.cfg
+env/
+__pycache__/
+*.pyc
+.env
+.venv
+bin/
+include/
+lib/
+lib64

@@ -1,14 +1,17 @@
-import asyncio, websockets
+
 from py122u import nfc
-import json
+from dotenv import load_dotenv
+import json, os
+import asyncio, websockets
 import requests
 
 # Avoiding ssl
 from urllib3.exceptions import InsecureRequestWarning
 # Suppress the warnings from urllib3
 requests.packages.urllib3.disable_warnings(category=InsecureRequestWarning)
-# adding the token:
-token_key = "21204489f766b2c3373f19051f132464235c5ec883e5c0d49b4e3b17d683bf04"
+# Calling the token key from hiden file .env:
+load_dotenv()
+token_key = os.getenv("DEVICE_TOKEN_KEY")
 
 headers = {
     'Authorization': f'Bearer {token_key}'
@@ -46,7 +49,7 @@ async def hello(websocket):
         #'http://glencho.casacam.net:57347/api/card/scan/',
         'http://localhost:8000/api/card/scan/',
         data={'tag_id': tag_id},
-        # headers=headers,
+        headers=headers,
         verify=False
     )
     

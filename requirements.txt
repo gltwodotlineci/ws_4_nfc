@@ -1,0 +1,9 @@
+certifi==2025.4.26
+charset-normalizer==3.4.2
+idna==3.10
+py122u==2.3.5
+pyscard==2.2.2
+python-dotenv==1.1.0
+requests==2.32.4
+urllib3==2.4.0
+websockets==15.0.1
